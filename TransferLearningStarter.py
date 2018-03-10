@@ -22,33 +22,21 @@ img.shape
 train_img = []
 for img_name in tqdm(train['image_name'].values):
     train_img.append(read_img(TRAIN_PATH + img_name))
-print("done")
 x_train = np.array(train_img, np.float32) / 255.
-print("del")
 del train_img
 x_train.shape
 print("shape",x_train.shape)
 label_list = train['detected'].tolist()
 label_numeric = {k: v+1 for v, k in enumerate(set(label_list))}
-print("enum")
 y_train = [label_numeric[k] for k in label_list]
-print("ytrain");
 y_train = np.array(y_train)
-print("1");
 from keras import applications
-print("2");
 from keras.models import Model
-print("3");
 from keras import optimizers
-print("4");
 from keras.models import Sequential
-print("5");
 from keras.layers import Dense, Flatten
-print("6");
 from keras.utils import to_categorical
-print("7");
 from keras.preprocessing.image import ImageDataGenerator
-print("8");
 y_train = to_categorical(y_train)
 base_model = applications.VGG16(weights='imagenet', include_top=False, input_shape=(IMG_SIZE, IMG_SIZE, 3))
 add_model = Sequential()
