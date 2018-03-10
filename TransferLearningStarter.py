@@ -9,7 +9,7 @@ test = pd.read_csv('../input/test.csv')
 
 train.head()
 
-IMG_SIZE = 256
+IMG_SIZE = 128
 def read_img(img_path):
     img = cv2.imread(img_path, cv2.IMREAD_COLOR)
     img = cv2.resize(img, (IMG_SIZE, IMG_SIZE))
@@ -62,15 +62,14 @@ model.compile(loss='categorical_crossentropy', optimizer=optimizers.SGD(lr=1e-4,
 
 model.summary()
 batch_size = 32 # tune it
-epochs = 5 
+epochs = 25 
 # increase it lb:0.40856(50 epochs), 0.27101 (5 epochs)
 # increase it only on the cloud so that resource allocation error doesnt occur.
 
 train_datagen = ImageDataGenerator(
         rotation_range=30, 
         width_shift_range=0.1,
-        height_shift_range=0.1, 
-        horizontal_flip=True)
+        height_shift_range=0.1)
 train_datagen.fit(x_train)
 history = model.fit_generator(
     train_datagen.flow(x_train, y_train, batch_size=batch_size),
